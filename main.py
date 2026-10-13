@@ -25,8 +25,8 @@ DATABASE_DIR = "database"
 # Algorithms available for skeletonisation
 # Just comment out the ones you don't want to use
 ALGORITHMS = {
-    "Medial Axis": medial_axis_thinning,
-    "Morphological Thinning": morphological_thinning,
+    # "Medial Axis": medial_axis_thinning,
+    # "Morphological Thinning": morphological_thinning,
     "Zhang-Suen": zhang_suen_thinning
 }
 
@@ -40,8 +40,6 @@ def select_image():
     )
     root.destroy() # Close the file dialogue
     return path
-
-# End select_image
 
 
 def main():
@@ -99,8 +97,6 @@ def main():
     # Adjust the spacing and display the images
     plt.tight_layout()
     plt.show()
-
-# End main
 
 
 if __name__ == "__main__":

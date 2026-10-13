@@ -11,4 +11,3 @@ import numpy as np
 
 def medial_axis_thinning(binary_img: np.ndarray) -> np.ndarray:
     raise NotImplementedError("Medial Axis Thinning algorithm not implemented yet")
-# End medial_axis_thinning

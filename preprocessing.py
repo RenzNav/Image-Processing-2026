@@ -22,6 +22,11 @@ INVERT = False
 
 
 def load_grayscale(path):
+    """
+    Method loads an image and converts it to grayscale. 
+    Returns the converted image.
+    """
+    
     # 1. Convert the fingerprint image to grayscale
     image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 
@@ -30,17 +35,19 @@ def load_grayscale(path):
 
     return image
 
-# End load_grayscale
-
 
 def preprocess(image):
+    """
+    Preprocesses the fingerprint image to prepare it for skeletonisation. 
+    Returns a binary image with white ridges and black background
+    """
+
     # 2. Resize the image to a standard size
     scale = 500 / max(image.shape) 
 
     image = cv2.resize(
         image, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA
     )
-
 
     # 3. Improve contrast between fingerprint ridges and background
     clahe = cv2.createCLAHE(
@@ -49,10 +56,8 @@ def preprocess(image):
 
     image = clahe.apply(image)
 
-
     # 4. Apply a small blur to reduce image noise
     image = cv2.GaussianBlur(image, (3, 3), 0)
-
 
     # 5. Convert grayscale image to black and white
     if INVERT:
@@ -61,7 +66,6 @@ def preprocess(image):
         threshold_mode = cv2.THRESH_BINARY_INV
 
     binary = cv2.adaptiveThreshold(image, 255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, threshold_mode, 15, 2)
-
 
     # 6. Remove small noise and fill minor gaps
     # kernel = np.ones((3, 3), np.uint8)
@@ -76,7 +80,6 @@ def preprocess(image):
     #     binary, cv2.MORPH_CLOSE, kernel
     # )
 
-
     # # 6. Remove small disconnected white regions
     count, labels, stats, _ = cv2.connectedComponentsWithStats(binary)
     minimum_area = 10 # Minimum area threshold for connected components
@@ -89,7 +92,4 @@ def preprocess(image):
         if area < minimum_area:
             binary[labels == component] = 0 
 
-
     return binary
-
-# End preprocess

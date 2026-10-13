@@ -11,4 +11,3 @@ import numpy as np
 
 def morphological_thinning(binary_img: np.ndarray) -> np.ndarray:
     raise NotImplementedError("Morphological thinning algorithm not implemented yet")
-# End morphological_thinning

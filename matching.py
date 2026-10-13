@@ -12,4 +12,3 @@ import numpy as np
 
 def match_fingerprint(skeleton: np.ndarray, database_dir: str) -> list:
     raise NotImplementedError("Matching algorithm not implemented yet")
-# End match_fingerprint
