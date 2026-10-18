@@ -1,0 +1,20 @@
+{
+  "metrics": [
+    {
+      "fingerprint_id": "fp_001",
+      "algorithm": "morphological_thinning",
+      "execution_time_ms": 92465.45170003083,
+      "minutiae_count": 0,
+      "accuracy": null,
+      "recorded_at": "2026-10-18T23:20:07"
+    },
+    {
+      "fingerprint_id": "fp_002",
+      "algorithm": "morphological_thinning",
+      "execution_time_ms": 88451.79249998182,
+      "minutiae_count": 0,
+      "accuracy": null,
+      "recorded_at": "2026-10-18T23:21:35"
+    }
+  ]
+}

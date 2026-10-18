@@ -2,3 +2,8 @@
 __pycache__/
 *.pyc
 .vscode/
+imgDATA/processed/
+test_*.py
+binary.png
+skeleton.png
+practiceDami.py
