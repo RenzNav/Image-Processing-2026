@@ -1,0 +1,30 @@
+{
+  "fingerprints": [
+    {
+      "fingerprint_id": "fp_001",
+      "subject_id": "subject_001",
+      "enrolled_date": "2026-10-18T23:18:34",
+      "original_image_path": "fingerprint_samples/fingerprint_01.jpg",
+      "metadata": {
+        "format": "jpg"
+      },
+      "processed_images": {
+        "binarised": "imgDATA/processed/fp_001_binary.png",
+        "skeletonised": "imgDATA/processed/fp_001_skeleton.png"
+      }
+    },
+    {
+      "fingerprint_id": "fp_002",
+      "subject_id": "subject_002",
+      "enrolled_date": "2026-10-18T23:20:07",
+      "original_image_path": "fingerprint_samples/fingerprint_02.jpg",
+      "metadata": {
+        "format": "jpg"
+      },
+      "processed_images": {
+        "binarised": "imgDATA/processed/fp_002_binary.png",
+        "skeletonised": "imgDATA/processed/fp_002_skeleton.png"
+      }
+    }
+  ]
+}
