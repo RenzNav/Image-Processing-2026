@@ -1,7 +1,10 @@
 """
 Program Name: Zhang-Suen Algorithm
 Author: Clarence Navarro
-Description: This module implements the Zhang-Suen thinning algorithm for skeletonisation of binary images. 
+Description: This module implements the Zhang-Suen thinning algorithm for skeletonisation of binary images.
+It uses two alternating passes to check the eight neighbours of each foreground pixel and removes eligible boundary pixels.
+This repeats until no more pixels can be removed. In the end, the output is a thin 1 pixel wide skeleton aimed at preserving the original
+structure of the fingerprint ridges. 
 Date: 10/10/2026
 """
 import numpy as np
@@ -14,8 +17,6 @@ def zhang_suen_thinning(binary_img: np.ndarray) -> np.ndarray:
     """
     # Convert to binary for processing
     image = (binary_img > 0).astype(np.uint8)
-
-    # Get height and width of image
     height, width = image.shape
 
     # Flag to track if any pixels are removed during an iteration
