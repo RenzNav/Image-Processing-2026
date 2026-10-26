@@ -1,9 +1,9 @@
 """
 Program Name: Database (JSON storage layer)
-Author: Dami Talabi
+Author: Damisola Talabi
 Description: JSON-backed storage for fingerprints, minutiae, matching results,
              and performance metrics. Replaces an earlier SQL design because
-             JSON requires no server, is diff-friendly in git, and is
+             JSON requires no server, is collab-friendly in git, and is
              appropriate for this project's small data volume.
 Date: 18/10/2026
 """
