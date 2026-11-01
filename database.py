@@ -71,6 +71,14 @@ def get_fingerprint(fingerprint_id):
     return None
 
 
+def find_by_skeleton_filename(filename):
+    """Return the fingerprint_id whose skeleton path ends with `filename`."""
+    for fp in _load("fingerprints"):
+        path = fp.get("processed_images", {}).get("skeletonised", "")
+        if os.path.basename(path) == filename:
+            return fp["fingerprint_id"]
+    return None
+                                                                        
 def update_processed_images(fingerprint_id, enhanced=None, binarised=None, skeletonised=None):
     """Attach paths to processed images for a fingerprint."""
     records = _load("fingerprints")
@@ -114,22 +122,28 @@ def get_minutiae(fingerprint_id):
 
 # Matching results
 # ----------------------
-def save_match_result(query_id, matched_id, similarity_score, threshold=0.7):
-    """Store a comparison result. Match status derived from threshold."""
+def save_match_result(query_id, matched_id, similarity_score, algorithm, threshold=0.7):
+    """Store a comparison result, including which algorithm produced the skeletons
+    and whether the pair is genuine (same subject) or impostor."""
     records = _load("results")
-    status = "match" if similarity_score >= threshold else "no_match"
+
+    q = get_fingerprint(query_id)
+    m = get_fingerprint(matched_id)
+    genuine = bool(q and m and q["subject_id"] == m["subject_id"])
+
     record = {
         "comparison_id": f"cmp_{len(records) + 1:04d}",
         "query_fingerprint_id": query_id,
         "matched_fingerprint_id": matched_id,
+        "algorithm": algorithm,
         "similarity_score": similarity_score,
-        "match_status": status,
+        "genuine": genuine,
+        "match_status": "match" if similarity_score >= threshold else "no_match",
         "compared_at": datetime.now().isoformat(timespec="seconds"),
     }
     records.append(record)
     _save("results", records)
     return record
-
 
 # Performance metrics
 # ---------------------------------
