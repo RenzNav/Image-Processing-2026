@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "comparison_id": "cmp_0001",
+      "query_fingerprint_id": "fp_001",
+      "matched_fingerprint_id": "fp_002",
+      "algorithm": "morphological_thinning",
+      "similarity_score": 0.028,
+      "genuine": false,
+      "match_status": "no_match",
+      "compared_at": "2026-11-01T17:30:02"
+    }
+  ]
+}
