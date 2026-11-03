@@ -3,27 +3,37 @@
     {
       "fingerprint_id": "fp_001",
       "subject_id": "subject_001",
-      "enrolled_date": "2026-11-01T17:08:22",
+      "enrolled_date": "2026-11-03T22:23:56",
       "original_image_path": "fingerprint_samples/fingerprint_01.jpg",
       "metadata": {
         "format": "jpg"
       },
       "processed_images": {
-        "binarised": "imgDATA/processed/fp_001_binary.png",
-        "skeletonised": "imgDATA/processed/fp_001_skeleton.png"
+        "binarised": {
+          "morphological_thinning": "imgDATA/processed/binary/fp_001_binary.png"
+        },
+        "skeletonised": {
+          "morphological_thinning": "imgDATA/processed/fp_001_skeleton.png",
+          "zhang_suen": "imgDATA/processed/zhang_suen/fp_001_skeleton.png"
+        }
       }
     },
     {
       "fingerprint_id": "fp_002",
       "subject_id": "subject_002",
-      "enrolled_date": "2026-11-01T17:08:22",
+      "enrolled_date": "2026-11-03T22:23:56",
       "original_image_path": "fingerprint_samples/fingerprint_02.jpg",
       "metadata": {
         "format": "jpg"
       },
       "processed_images": {
-        "binarised": "imgDATA/processed/fp_002_binary.png",
-        "skeletonised": "imgDATA/processed/fp_002_skeleton.png"
+        "binarised": {
+          "morphological_thinning": "imgDATA/processed/binary/fp_002_binary.png"
+        },
+        "skeletonised": {
+          "morphological_thinning": "imgDATA/processed/fp_002_skeleton.png",
+          "zhang_suen": "imgDATA/processed/zhang_suen/fp_002_skeleton.png"
+        }
       }
     }
   ]

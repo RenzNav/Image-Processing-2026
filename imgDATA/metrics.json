@@ -3,18 +3,34 @@
     {
       "fingerprint_id": "fp_001",
       "algorithm": "morphological_thinning",
-      "execution_time_ms": 19.496999999319087,
+      "execution_time_ms": 24.415699997916818,
       "minutiae_count": 0,
       "accuracy": null,
-      "recorded_at": "2026-11-01T17:08:22"
+      "recorded_at": "2026-11-03T22:23:56"
     },
     {
       "fingerprint_id": "fp_002",
       "algorithm": "morphological_thinning",
-      "execution_time_ms": 16.78529999935563,
+      "execution_time_ms": 15.95699999597855,
       "minutiae_count": 0,
       "accuracy": null,
-      "recorded_at": "2026-11-01T17:08:22"
+      "recorded_at": "2026-11-03T22:23:56"
+    },
+    {
+      "fingerprint_id": "fp_001",
+      "algorithm": "zhang_suen",
+      "execution_time_ms": 1298.553400003584,
+      "minutiae_count": 0,
+      "accuracy": null,
+      "recorded_at": "2026-11-03T22:29:14"
+    },
+    {
+      "fingerprint_id": "fp_002",
+      "algorithm": "zhang_suen",
+      "execution_time_ms": 1275.2685000014026,
+      "minutiae_count": 0,
+      "accuracy": null,
+      "recorded_at": "2026-11-03T22:29:15"
     }
   ]
 }
