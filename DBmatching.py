@@ -12,39 +12,27 @@ import cv2
 import database as db
 from matching import build_template, compare_templates
 
-# Algorithm name recorded next to the minutiae we save.
-ALGORITHM = "morphological_thinning"
+
 
 # matching.py stores the minutia type as a number (1 or 3); the database stores a word.
 MINUTIA_TYPES = {1: "ridge_ending", 3: "bifurcation"}
 
 
-def _load_template(fingerprint_id):
-    """Look up a fingerprint in the database, read its skeleton image and build its template."""
+def _load_template(fingerprint_id, algorithm):
     record = db.get_fingerprint(fingerprint_id)
     if record is None:
         raise ValueError(f"{fingerprint_id} is not in the database")
-
-    # The database only stores the PATH of the skeleton, so the image is read from disk here.
-    path = record["processed_images"].get("skeletonised")
+    path = record["processed_images"].get("skeletonised", {}).get(algorithm)
     if not path:
-        raise ValueError(f"{fingerprint_id} has no skeletonised image saved in the database")
-
+        raise ValueError(f"{fingerprint_id} has no {algorithm} skeleton")
     skeleton = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     if skeleton is None:
-        raise FileNotFoundError(f"Could not read skeleton image: {path}")
-
-    # build_template extracts the minutiae and the print region from the skeleton.
+        raise FileNotFoundError(f"Could not read skeleton: {path}")
     return build_template(skeleton)
 
 
-def store_minutiae(fingerprint_id, algorithm=ALGORITHM):
-    """Extract the minutiae of a fingerprint's skeleton and save them in minutiae.json.
-    Returns how many minutiae were saved."""
-    template = _load_template(fingerprint_id)
-
-    # Convert each row [x, y, angle in radians, type] into the dictionary format
-    # that the database expects.
+def store_minutiae(fingerprint_id, algorithm):
+    template = _load_template(fingerprint_id, algorithm)
     features = [
         {
             "type": MINUTIA_TYPES[int(m[3])],
@@ -54,31 +42,23 @@ def store_minutiae(fingerprint_id, algorithm=ALGORITHM):
         }
         for m in template["minutiae"]
     ]
-
     db.save_minutiae(fingerprint_id, algorithm, features)
     return len(features)
 
 
-def match_against_database(query_id, top_n=5):
-    """Compare one enrolled fingerprint against every other enrolled fingerprint.
-    The top_n best results are saved in results.json and returned."""
-    query = _load_template(query_id)
-
+def match_against_database(query_id, algorithm, top_n=5):
+    query = _load_template(query_id, algorithm)
     scored = []
     for record in db.get_all_fingerprints():
         other_id = record["fingerprint_id"]
-
-        # Skip the query itself (it would always be a perfect match) and any
-        # fingerprint that has no skeleton yet.
-        if other_id == query_id or not record["processed_images"].get("skeletonised"):
+        if other_id == query_id:
             continue
-
-        score, matched = compare_templates(query, _load_template(other_id))
+        try:
+            other = _load_template(other_id, algorithm)
+        except (ValueError, FileNotFoundError):
+            continue
+        score, matched = compare_templates(query, other)
         scored.append((other_id, float(score), matched))
-
-    # Best score first; the number of matched minutiae breaks ties.
     scored.sort(key=lambda r: (r[1], r[2]), reverse=True)
-
-    # Save the best results; save_match_result labels each one match / no_match.
-    return [db.save_match_result(query_id, other_id, round(score, 3))
-            for other_id, score, _ in scored[:top_n]]
+    return [db.save_match_result(query_id, oid, round(s, 3), algorithm)
+            for oid, s, _ in scored[:top_n]]

@@ -70,29 +70,33 @@ def get_fingerprint(fingerprint_id):
             return r
     return None
 
+def get_all_fingerprints():
+    """Return every fingerprint record."""
+    return _load("fingerprints")
+
 
 def find_by_skeleton_filename(filename):
     """Return the fingerprint_id whose skeleton path ends with `filename`."""
     for fp in _load("fingerprints"):
-        path = fp.get("processed_images", {}).get("skeletonised", "")
-        if os.path.basename(path) == filename:
-            return fp["fingerprint_id"]
+        paths = fp.get("processed_images", {}).get("skeletonised", {})
+        for algo_path in paths.values():
+            if os.path.basename(algo_path) == filename:
+                return fp["fingerprint_id"]
     return None
                                                                         
-def update_processed_images(fingerprint_id, enhanced=None, binarised=None, skeletonised=None):
-    """Attach paths to processed images for a fingerprint."""
+def update_processed_images(fingerprint_id, algorithm, binarised=None, skeletonised=None):
+    """Attach algorithm-specific processed image paths."""
     records = _load("fingerprints")
     for r in records:
         if r["fingerprint_id"] == fingerprint_id:
-            if enhanced:
-                r["processed_images"]["enhanced"] = enhanced
+            r["processed_images"].setdefault("binarised", {})
+            r["processed_images"].setdefault("skeletonised", {})
             if binarised:
-                r["processed_images"]["binarised"] = binarised
+                r["processed_images"]["binarised"][algorithm] = binarised
             if skeletonised:
-                r["processed_images"]["skeletonised"] = skeletonised
+                r["processed_images"]["skeletonised"][algorithm] = skeletonised
             break
     _save("fingerprints", records)
-
 
 
 # Minutiae
