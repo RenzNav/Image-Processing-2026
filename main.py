@@ -10,17 +10,18 @@ import tkinter as tk
 from tkinter import filedialog
 
 # Library needed to display image results
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt 
+import cv2
 
 # Importing files we created for preprocessing, skeletonisation, and matching
 from preprocessing import load_grayscale, preprocess
 from algorithms.medial_axis import medial_axis_thinning
 from algorithms.morphological import morphological_thinning
 from algorithms.zhang_suen import zhang_suen_thinning
-from matching import match_fingerprint
+from matching import match_fingerprint, build_template, compare_templates, show_minutiae
 
 # Directory where the fingerprint database is stored
-DATABASE_DIR = "database" 
+# DATABASE_DIR = "database" 
 
 # Algorithms available for skeletonisation
 # Just comment out the ones you don't want to use
@@ -65,11 +66,24 @@ def main():
     # Match the skeletons against the database (use first skeleton found)
     if skeletons:
         skeleton = list(skeletons.values())[0]
+        print("Select the second fingerprint to compare against...")
+        path_b = select_image()
+        if path_b:
+            algorithm = list(ALGORITHMS.values())[0]
+            skeleton_b = algorithm(preprocess(load_grayscale(path_b)))
+
+            tpl_a = build_template(skeleton)
+            tpl_b = build_template(skeleton_b)
+            score, pairs = compare_templates(tpl_a, tpl_b)
+            show_minutiae(skeleton, tpl_a, "Fingerprint A")
+            show_minutiae(skeleton_b, tpl_b, "Fingerprint B")
+            print(f"Minutiae: A = {len(tpl_a['minutiae'])}, B = {len(tpl_b['minutiae'])}")
+            print(f"Score = {score:.3f}, paired minutiae = {pairs}")
         # Call the match_fingerprint function and print the results
-        try:
-            print(match_fingerprint(skeleton, DATABASE_DIR))
-        except NotImplementedError:
-            print("Matching algorithm not implemented yet. Skipping.")
+        # try:
+            # print(match_fingerprint(skeleton, DATABASE_DIR))
+        # except NotImplementedError:
+           # print("Matching algorithm not implemented yet. Skipping.")
 
 
     # Display the original, binary, and skeleton images

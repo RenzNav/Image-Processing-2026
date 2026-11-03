@@ -3,18 +3,18 @@
     {
       "fingerprint_id": "fp_001",
       "algorithm": "morphological_thinning",
-      "execution_time_ms": 92465.45170003083,
+      "execution_time_ms": 19.496999999319087,
       "minutiae_count": 0,
       "accuracy": null,
-      "recorded_at": "2026-10-18T23:20:07"
+      "recorded_at": "2026-11-01T17:08:22"
     },
     {
       "fingerprint_id": "fp_002",
       "algorithm": "morphological_thinning",
-      "execution_time_ms": 88451.79249998182,
+      "execution_time_ms": 16.78529999935563,
       "minutiae_count": 0,
       "accuracy": null,
-      "recorded_at": "2026-10-18T23:21:35"
+      "recorded_at": "2026-11-01T17:08:22"
     }
   ]
 }

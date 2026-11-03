@@ -27,42 +27,35 @@ import numpy as np
 # ---------------------------------------------------------------------------
 
 _TEMPLATES = [
-    # NORTH: background above, foreground below
+    # 1: North — background above, foreground below
     np.array([[ 0,  0,  0],
               [-1,  1, -1],
               [ 1,  1,  1]], dtype=np.int8),
-
-    # NORTHEAST: background to the top-right
+    # 2: Northeast
     np.array([[-1,  0,  0],
               [ 1,  1,  0],
               [-1,  1, -1]], dtype=np.int8),
-
-    # EAST: background on the right, foreground on the left
+    # 3: East
     np.array([[ 1, -1,  0],
               [ 1,  1,  0],
               [ 1, -1,  0]], dtype=np.int8),
-
-    # SOUTHEAST: background to the bottom-right
+    # 4: Southeast
     np.array([[-1,  1, -1],
               [ 1,  1,  0],
               [-1,  0,  0]], dtype=np.int8),
-
-    # SOUTH: background below, foreground above
+    # 5: South
     np.array([[ 1,  1,  1],
               [-1,  1, -1],
               [ 0,  0,  0]], dtype=np.int8),
-
-    # SOUTHWEST: background to the bottom-left
+    # 6: Southwest
     np.array([[-1,  1, -1],
               [ 0,  1,  1],
               [ 0,  0, -1]], dtype=np.int8),
-
-    # WEST: background on the left, foreground on the right
+    # 7: West
     np.array([[ 0, -1,  1],
               [ 0,  1,  1],
               [ 0, -1,  1]], dtype=np.int8),
-
-    # NORTHWEST: background to the top-left
+    # 8: Northwest
     np.array([[ 0,  0, -1],
               [ 0,  1,  1],
               [-1,  1, -1]], dtype=np.int8),
@@ -85,35 +78,26 @@ def _hit_or_miss(img: np.ndarray, B1: np.ndarray, B2: np.ndarray) -> np.ndarray:
     h, w = img.shape
 
     # Every pixel starts as "no match". We fill this in as we scan.
-    result = np.zeros((h, w), dtype=bool)
+    result = np.ones((h - 2, w - 2), dtype=bool)
 
     # Loop over every INTERIOR pixel. We skip the outer border because a 3x3
     # template centred on a border pixel would run off the edge of the image.
-    for r in range(1, h - 1):
-        for c in range(1, w - 1):
+    for dr in range(3):
+        for dc in range(3):
+            b1_val = B1[dr, dc]
+            b2_val = B2[dr, dc]
 
-            # Grab the 3x3 neighbourhood centred on (r, c). This is the
-            # "window" the template is compared against.
-            patch = img[r - 1:r + 2, c - 1:c + 2]
+            # The image region aligned with this template cell
+            region = img[dr:dr + h - 2, dc:dc + w - 2]
 
-            # --- Check B1 ---
-            # B1 is a boolean grid marking "positions that must be
-            # foreground". (patch == 255) marks "positions that ARE foreground".
-            # B1 <= (patch == 255) is True everywhere except where a position
-            # is required to be foreground but is not, so np.all() tells us
-            # whether every required position really is foreground.
-            b1_match = np.all(B1 <= (patch == 255))
+            if b1_val == 1:
+                result &= (region == 255)
+            if b2_val == 1:
+                result &= (region == 0)
 
-            # --- Check B2 ---
-            # Same idea, but for background. Every position flagged in B2 must
-            # actually be background (0) in the patch.
-            b2_match = np.all(B2 <= (patch == 0))
-
-            # A hit-or-miss happens only when BOTH conditions are satisfied.
-            result[r, c] = b1_match and b2_match
-
-    return result
-
+    full = np.zeros((h, w), dtype=bool)
+    full[1:-1, 1:-1] = result
+    return full
 
 def morphological_thinning(binary_img: np.ndarray) -> np.ndarray:
     """
@@ -135,7 +119,9 @@ def morphological_thinning(binary_img: np.ndarray) -> np.ndarray:
     # We keep looping as long as it stays True.
     changed = True
 
+    
     while changed:
+        
 
         # Assume this pass removes nothing. Any removal flips this to True.
         changed = False
