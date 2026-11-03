@@ -10,7 +10,6 @@ import tkinter as tk
 from tkinter import filedialog
 import cv2
 import matplotlib.pyplot as plt
-import numpy as np
 
 # Importing files we created for preprocessing, skeletonisation, and matching
 from preprocessing import load_grayscale, preprocess
@@ -51,7 +50,9 @@ def select_image():
 def main():
     """
     Main function to run the fingerprint skeletonisation project.
-    It allows the user to select a fingerprint image, preprocesses it, applies multiple skeletonisation algorithms, and matches the results against a database.
+    Allows the user to select fingerprint images, preprocess them,
+    apply skeletonisation and spur pruning, compare fingerprint
+    templates, and display the results.
     """
     # Select the image and preprocess it
     path = select_image()
@@ -96,9 +97,9 @@ def main():
             print(f"Score = {score:.3f}, paired minutiae = {pairs}")
         # Call the match_fingerprint function and print the results
         # try:
-            # print(match_fingerprint(skeleton, DATABASE_DIR))
+        #     print(match_fingerprint(skeleton, DATABASE_DIR))
         # except NotImplementedError:
-           # print("Matching algorithm not implemented yet. Skipping.")
+        #    print("Matching algorithm not implemented yet. Skipping.")
 
 
     # Display the original, binary, skeleton, and post-processed images
