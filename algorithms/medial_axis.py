@@ -15,6 +15,7 @@ import math
 
 import numpy as np
 from scipy.ndimage import distance_transform_edt
+from scipy.spatial import cKDTree
 
 
 # Eight neighbouring pixel positions
@@ -33,31 +34,43 @@ FOUR_NEIGHBOURS = [
 
 def maximal_disk_centres(binary_img, distances):
     """
-    Identifies the centres of discrete maximal inscribed disks.
+    Identifies centres of discrete maximal inscribed disks.
+
+    Uses a KD-tree to reduce unnecessary comparisons between disks.
 
     Each foreground pixel is considered a potential disk centre.
     Its radius is the Euclidean distance to the nearest background pixel.
 
-    Disks contained within larger disks are discarded.
+    Disks contained within larger accepted disks are discarded.
     """
 
-    # Find coordinates of all foreground pixels
+    # Find coordinates of foreground pixels
     points = np.argwhere(binary_img > 0)
 
-    # Create an empty image for storing maximal-disk centres
+    # Create an empty image for maximal-disk centres
     centres = np.zeros(binary_img.shape, dtype=bool)
 
     if len(points) == 0:
         return centres
 
-    # Obtain the radius of each potential disk
+    # Get the radius of each potential disk
     radii = distances[points[:, 0], points[:, 1]]
 
     # Sort disks from largest to smallest
     order = np.argsort(-radii, kind="stable")
 
-    # Store accepted maximal disks
-    accepted = []
+    # Store accepted disk centres and radii
+    accepted_points = []
+    accepted_radii = []
+
+    # Process candidates in batches to avoid rebuilding the tree every time
+    batch_size = 256
+
+    tree = None
+    tree_count = 0
+
+    # Track the largest radius stored in the tree
+    max_tree_radius = 0.0
 
     for index in order:
 
@@ -66,24 +79,59 @@ def maximal_disk_centres(binary_img, distances):
 
         contained = False
 
-        # Compare current disk against previously accepted disks
-        for ay, ax, other_radius in accepted:
+        # Search accepted disks already stored in the KD-tree
+        if tree is not None:
 
-            if other_radius < radius:
-                continue
+            # A containing disk must have its centre within this distance
+            search_radius = max(0.0, max_tree_radius - radius)
 
-            # Calculate Euclidean distance between disk centres
-            centre_distance = math.hypot(ay - y, ax - x)
+            nearby = tree.query_ball_point(
+                [y, x],
+                r=search_radius + 1e-10
+            )
 
-            # Check whether the current disk is contained
-            if centre_distance + radius <= other_radius + 1e-10:
-                contained = True
-                break
+            for i in nearby:
 
-        # Retain disks that are not contained
+                ay, ax = accepted_points[i]
+                other_radius = accepted_radii[i]
+
+                centre_distance = math.hypot(ay - y, ax - x)
+
+                if centre_distance + radius <= other_radius + 1e-10:
+                    contained = True
+                    break
+
+        # Check recently accepted disks not yet added to the KD-tree
         if not contained:
+
+            for i in range(tree_count, len(accepted_points)):
+
+                ay, ax = accepted_points[i]
+                other_radius = accepted_radii[i]
+
+                centre_distance = math.hypot(ay - y, ax - x)
+
+                if centre_distance + radius <= other_radius + 1e-10:
+                    contained = True
+                    break
+
+        # Accept disk if it is not contained
+        if not contained:
+
             centres[y, x] = True
-            accepted.append((y, x, radius))
+
+            accepted_points.append((y, x))
+            accepted_radii.append(radius)
+
+            # Rebuild KD-tree periodically
+            if len(accepted_points) - tree_count >= batch_size:
+
+                tree = cKDTree(
+                    np.asarray(accepted_points, dtype=float)
+                )
+
+                tree_count = len(accepted_points)
+                max_tree_radius = max(accepted_radii)
 
     return centres
 
