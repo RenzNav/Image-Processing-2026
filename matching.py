@@ -7,9 +7,7 @@ Date:
 import numpy as np
 import os
 import math
-import numpy as np
 import cv2
-import matplotlib.pyplot as plt
  
 # ----------------------------------------------------------------------------
 # Tunable parameters (pixel values assume the size preprocessing resizes to)
@@ -280,37 +278,6 @@ def compare_templates(a, b, return_details=False):
         return best
 
     return best[0], best[1]
-
-def show_minutiae(skeleton, template, title):
-    minutiae = template["minutiae"]
-
-    plt.figure(figsize=(7, 7))
-    plt.imshow(skeleton, cmap="gray")
-
-    endings = minutiae[minutiae[:, 3] == 1]
-    bifurcations = minutiae[minutiae[:, 3] == 3]
-
-    plt.scatter(
-        endings[:, 0],
-        endings[:, 1],
-        color="red",
-        s=12,
-        label="Ridge endings"
-    )
-
-    plt.scatter(
-        bifurcations[:, 0],
-        bifurcations[:, 1],
-        color="blue",
-        s=12,
-        label="Bifurcations"
-    )
-
-    plt.title(title)
-    plt.legend()
-    plt.axis("off")
-    plt.show()
- 
  
 # ----------------------------------------------------------------------------
 # 3. Database handling + public entry point
