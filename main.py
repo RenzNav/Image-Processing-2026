@@ -17,7 +17,7 @@ from preprocessing import load_grayscale, preprocess
 # from algorithms.medial_axis import medial_axis_thinning
 # from algorithms.morphological import morphological_thinning
 from algorithms.zhang_suen import zhang_suen_thinning
-from matching import match_fingerprint
+from matching import match_fingerprint, build_template, compare_templates, show_minutiae
 from postprocessing import prune_spurs
 
 
@@ -81,10 +81,24 @@ def main():
     # Match the skeletons against the database (use first skeleton found)
     if skeletons:
         skeleton = list(skeletons.values())[0]
-        try:
-            print(match_fingerprint(skeleton, DATABASE_DIR))
-        except NotImplementedError:
-            print("Matching algorithm not implemented yet. Skipping.")
+        print("Select the second fingerprint to compare against...")
+        path_b = select_image()
+        if path_b:
+            algorithm = list(ALGORITHMS.values())[0]
+            skeleton_b = algorithm(preprocess(load_grayscale(path_b)))
+
+            tpl_a = build_template(skeleton)
+            tpl_b = build_template(skeleton_b)
+            score, pairs = compare_templates(tpl_a, tpl_b)
+            show_minutiae(skeleton, tpl_a, "Fingerprint A")
+            show_minutiae(skeleton_b, tpl_b, "Fingerprint B")
+            print(f"Minutiae: A = {len(tpl_a['minutiae'])}, B = {len(tpl_b['minutiae'])}")
+            print(f"Score = {score:.3f}, paired minutiae = {pairs}")
+        # Call the match_fingerprint function and print the results
+        # try:
+            # print(match_fingerprint(skeleton, DATABASE_DIR))
+        # except NotImplementedError:
+           # print("Matching algorithm not implemented yet. Skipping.")
 
 
     # Display the original, binary, skeleton, and post-processed images
