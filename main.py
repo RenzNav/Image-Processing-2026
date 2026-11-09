@@ -16,11 +16,11 @@ from preprocessing import load_grayscale, preprocess
 # from algorithms.medial_axis import medial_axis_thinning
 # from algorithms.morphological import morphological_thinning
 from algorithms.zhang_suen import zhang_suen_thinning
-from matching import match_fingerprint, build_template, compare_templates, show_minutiae
+from matching import match_fingerprint
 from postprocessing import prune_spurs
 
 
-DATABASE_DIR = "database" 
+DATABASE_DIR = "imgDATA" 
 
 # Algorithms available for skeletonisation
 # Just comment out the ones you don't want to use
@@ -66,40 +66,43 @@ def main():
     # Run each thinning algorithm on the binary image 
     skeletons = {}
     processed_skeletons = {}
+
     for name, algorithm in ALGORITHMS.items():
         try:
             # Run the thinning algorithm
             skeletons[name] = algorithm(binary.copy())
 
-            # Apply spur pruning to the skeleton
+            # Apply spur pruning
             processed_skeletons[name] = prune_spurs(
                 skeletons[name], threshold=2
             )
+
         except NotImplementedError:
             print(name, "algorithm not implemented yet. Skipping.")
+    # Match each skeleton against the database
+    for name, skeleton in skeletons.items():
 
+        # Convert algorithm name to JSON format
+        algorithm_key = name.lower().replace(" ", "_").replace("-", "_")
 
-    # Match the skeletons against the database (use first skeleton found)
-    if skeletons:
-        skeleton = list(skeletons.values())[0]
-        print("Select the second fingerprint to compare against...")
-        path_b = select_image()
-        if path_b:
-            algorithm = list(ALGORITHMS.values())[0]
-            skeleton_b = algorithm(preprocess(load_grayscale(path_b)))
+        print(f"\nMatching using {name}...")
 
-            tpl_a = build_template(skeleton)
-            tpl_b = build_template(skeleton_b)
-            score, pairs = compare_templates(tpl_a, tpl_b)
-            show_minutiae(skeleton, tpl_a, "Fingerprint A")
-            show_minutiae(skeleton_b, tpl_b, "Fingerprint B")
-            print(f"Minutiae: A = {len(tpl_a['minutiae'])}, B = {len(tpl_b['minutiae'])}")
-            print(f"Score = {score:.3f}, paired minutiae = {pairs}")
-        # Call the match_fingerprint function and print the results
-        # try:
-        #     print(match_fingerprint(skeleton, DATABASE_DIR))
-        # except NotImplementedError:
-        #    print("Matching algorithm not implemented yet. Skipping.")
+        results = match_fingerprint(
+            skeleton,
+            DATABASE_DIR,
+            algorithm=algorithm_key
+        )
+
+        if not results:
+            print(f"No matching database records loaded for {name}.")
+            continue
+
+        for fingerprint_id, score, matched in results:
+            print(
+                f"Fingerprint: {fingerprint_id}, "
+                f"Score: {score:.3f}, "
+                f"Matched minutiae: {matched}"
+            )
 
 
     # Display the original, binary, skeleton, and post-processed images
