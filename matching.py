@@ -10,6 +10,8 @@ import math
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+import json
+from pathlib import Path
  
 # ----------------------------------------------------------------------------
 # Tunable parameters (pixel values assume the size preprocessing resizes to)
@@ -237,7 +239,7 @@ def _evaluate(q, t, q_region, t_region, theta, tx, ty):
     overlap_total = q_overlap + t_overlap
 
     if overlap_total == 0:
-        score = 0.0
+        overlap_score = 0.0
     else:
         overlap_score = min(1.0, (2 * matched) / overlap_total)
 
@@ -315,36 +317,113 @@ def show_minutiae(skeleton, template, title):
 # ----------------------------------------------------------------------------
 # 3. Database handling + public entry point
 # ----------------------------------------------------------------------------
-def _load_database(database_dir):
-    """Load every skeleton image in the folder and extract its minutiae (cached)."""
-    files = sorted(f for f in os.listdir(database_dir)
-                   if f.lower().endswith(IMAGE_EXTS))
-    stamp = tuple((f, os.path.getmtime(os.path.join(database_dir, f))) for f in files)
-    cached = _template_cache.get(database_dir)
-    if cached and cached[0] == stamp:
-        return cached[1]
- 
+
+def _load_database(database_dir, algorithm):
+    """
+    Load fingerprint templates from the JSON database.
+
+    Uses stored minutiae and the corresponding skeleton image
+    to construct templates for fingerprint matching.
+    """
+    database_dir = Path(database_dir)
+
+    with open(database_dir / "fingerprints.json", "r") as f:
+        fingerprints = json.load(f)["fingerprints"]
+
+    with open(database_dir / "minutiae.json", "r") as f:
+        minutiae_records = json.load(f)["minutiae"]
+
+    # Look up stored minutiae by fingerprint ID and algorithm.
+    minutiae_lookup = {
+        (record["fingerprint_id"], record["algorithm"]): record["features"]
+        for record in minutiae_records
+    }
+
     templates = {}
-    for f in files:
-        img = cv2.imread(os.path.join(database_dir, f), cv2.IMREAD_GRAYSCALE)
-        if img is None:
-            print(f"Skipping {f}: could not read image")
+
+    for fingerprint in fingerprints:
+        fingerprint_id = fingerprint["fingerprint_id"]
+        key = (fingerprint_id, algorithm)
+
+        # Skip fingerprints without minutiae for this algorithm.
+        if key not in minutiae_lookup:
             continue
-        templates[f] = build_template(img)
-    _template_cache[database_dir] = (stamp, templates)
+
+        # Find the skeleton produced by the selected algorithm.
+        skeleton_paths = fingerprint["processed_images"]["skeletonised"]
+
+        if algorithm not in skeleton_paths:
+            continue
+
+        skeleton_path = Path(skeleton_paths[algorithm])
+
+        skeleton = cv2.imread(
+            str(skeleton_path),
+            cv2.IMREAD_GRAYSCALE
+        )
+
+        if skeleton is None:
+            print(f"Skipping {fingerprint_id}: skeleton not found")
+            continue
+
+        # Convert stored minutiae into the format used by matching.py.
+        features = minutiae_lookup[key]
+
+        minutiae = np.array([
+            [
+                feature["x"],
+                feature["y"],
+                math.radians(feature["orientation_deg"]),
+                1 if feature["type"] == "ridge_ending" else 3
+            ]
+            for feature in features
+        ], dtype=np.float64).reshape(-1, 4)
+
+        # Generate the region mask required for similarity scoring.
+        region, _ = _region_masks(skeleton > 127)
+
+        templates[fingerprint_id] = {
+            "minutiae": minutiae,
+            "region": region
+        }
+
     return templates
+
 
 # Input: 2D uint8array, foreground (ridges) = 255, background = 0
 # Need to mention database directory after Dami creates it
 # Expected Output: List of tuples showing the best match from the database?
 
-def match_fingerprint(skeleton: np.ndarray, database_dir: str, top_n: int = 5) -> list:
+def match_fingerprint(
+    skeleton: np.ndarray,
+    database_dir: str,
+    algorithm: str,
+    top_n: int = 5
+) -> list:
+    """
+    Match a skeletonised fingerprint against stored database fingerprints.
+
+    Returns the top matches as:
+    (fingerprint_id, similarity_score, matched_minutiae_count)
+    """
     query = build_template(skeleton)
-    database = _load_database(database_dir)
- 
+    database = _load_database(database_dir, algorithm)
+
     results = []
-    for name, tpl in database.items():
-        score, n = compare_templates(query, tpl)
-        results.append((name, round(float(score), 3), n))
-    results.sort(key=lambda r: (r[1], r[2]), reverse=True)
+
+    for fingerprint_id, template in database.items():
+        score, matched = compare_templates(query, template)
+
+        results.append((
+            fingerprint_id,
+            round(float(score), 3),
+            matched
+        ))
+
+    results.sort(
+        key=lambda result: (result[1], result[2]),
+        reverse=True
+    )
+
     return results[:top_n]
+
