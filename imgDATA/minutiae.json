@@ -2,7 +2,7 @@
   "minutiae": [
     {
       "fingerprint_id": "fp_001",
-      "extracted_at": "2026-11-03T22:24:25",
+      "extracted_at": "2026-11-12T17:13:34",
       "algorithm": "morphological_thinning",
       "features": [
         {
@@ -266,8 +266,99 @@
       ]
     },
     {
+      "fingerprint_id": "fp_002",
+      "extracted_at": "2026-11-12T17:13:34",
+      "algorithm": "morphological_thinning",
+      "features": [
+        {
+          "type": "ridge_ending",
+          "x": 182,
+          "y": 100,
+          "orientation_deg": 180.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 216,
+          "y": 142,
+          "orientation_deg": 15.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 156,
+          "y": 150,
+          "orientation_deg": 166.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 232,
+          "y": 171,
+          "orientation_deg": 24.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 272,
+          "y": 191,
+          "orientation_deg": -151.4
+        },
+        {
+          "type": "bifurcation",
+          "x": 174,
+          "y": 194,
+          "orientation_deg": -5.2
+        },
+        {
+          "type": "ridge_ending",
+          "x": 158,
+          "y": 222,
+          "orientation_deg": -20.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 92,
+          "y": 226,
+          "orientation_deg": 128.7
+        },
+        {
+          "type": "ridge_ending",
+          "x": 308,
+          "y": 239,
+          "orientation_deg": 32.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 274,
+          "y": 276,
+          "orientation_deg": 61.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 151,
+          "y": 280,
+          "orientation_deg": 118.6
+        },
+        {
+          "type": "ridge_ending",
+          "x": 331,
+          "y": 324,
+          "orientation_deg": 0.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 292,
+          "y": 370,
+          "orientation_deg": 138.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 281,
+          "y": 380,
+          "orientation_deg": -45.0
+        }
+      ]
+    },
+    {
       "fingerprint_id": "fp_001",
-      "extracted_at": "2026-11-03T22:29:15",
+      "extracted_at": "2026-11-12T17:13:36",
       "algorithm": "zhang_suen",
       "features": [
         {
@@ -988,7 +1079,7 @@
     },
     {
       "fingerprint_id": "fp_002",
-      "extracted_at": "2026-11-03T22:29:15",
+      "extracted_at": "2026-11-12T17:13:37",
       "algorithm": "zhang_suen",
       "features": [
         {
@@ -1272,6 +1363,848 @@
           "x": 187,
           "y": 440,
           "orientation_deg": -5.7
+        }
+      ]
+    },
+    {
+      "fingerprint_id": "fp_001",
+      "extracted_at": "2026-11-12T17:13:44",
+      "algorithm": "medial_axis",
+      "features": [
+        {
+          "type": "ridge_ending",
+          "x": 162,
+          "y": 24,
+          "orientation_deg": 0.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 199,
+          "y": 30,
+          "orientation_deg": -159.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 206,
+          "y": 34,
+          "orientation_deg": 20.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 254,
+          "y": 57,
+          "orientation_deg": -150.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 264,
+          "y": 64,
+          "orientation_deg": 35.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 276,
+          "y": 64,
+          "orientation_deg": -140.2
+        },
+        {
+          "type": "ridge_ending",
+          "x": 249,
+          "y": 65,
+          "orientation_deg": -150.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 176,
+          "y": 70,
+          "orientation_deg": -167.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 256,
+          "y": 71,
+          "orientation_deg": 32.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 167,
+          "y": 76,
+          "orientation_deg": -174.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 177,
+          "y": 79,
+          "orientation_deg": 7.1
+        },
+        {
+          "type": "ridge_ending",
+          "x": 207,
+          "y": 80,
+          "orientation_deg": -159.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 244,
+          "y": 81,
+          "orientation_deg": -150.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 155,
+          "y": 83,
+          "orientation_deg": -167.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 193,
+          "y": 84,
+          "orientation_deg": 20.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 214,
+          "y": 84,
+          "orientation_deg": 20.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 170,
+          "y": 86,
+          "orientation_deg": 10.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 150,
+          "y": 90,
+          "orientation_deg": 180.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 139,
+          "y": 103,
+          "orientation_deg": 0.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 81,
+          "y": 108,
+          "orientation_deg": -15.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 268,
+          "y": 114,
+          "orientation_deg": -140.2
+        },
+        {
+          "type": "ridge_ending",
+          "x": 159,
+          "y": 116,
+          "orientation_deg": -167.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 276,
+          "y": 119,
+          "orientation_deg": 36.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 235,
+          "y": 123,
+          "orientation_deg": 36.9
+        },
+        {
+          "type": "ridge_ending",
+          "x": 58,
+          "y": 148,
+          "orientation_deg": -32.5
+        },
+        {
+          "type": "bifurcation",
+          "x": 95,
+          "y": 160,
+          "orientation_deg": -32.5
+        },
+        {
+          "type": "bifurcation",
+          "x": 178,
+          "y": 162,
+          "orientation_deg": 15.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 310,
+          "y": 163,
+          "orientation_deg": 45.0
+        },
+        {
+          "type": "bifurcation",
+          "x": 120,
+          "y": 164,
+          "orientation_deg": -10.3
+        },
+        {
+          "type": "bifurcation",
+          "x": 97,
+          "y": 177,
+          "orientation_deg": -48.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 176,
+          "y": 183,
+          "orientation_deg": -174.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 314,
+          "y": 189,
+          "orientation_deg": 52.1
+        },
+        {
+          "type": "bifurcation",
+          "x": 102,
+          "y": 203,
+          "orientation_deg": -41.6
+        },
+        {
+          "type": "ridge_ending",
+          "x": 24,
+          "y": 204,
+          "orientation_deg": 116.6
+        },
+        {
+          "type": "ridge_ending",
+          "x": 238,
+          "y": 209,
+          "orientation_deg": 65.6
+        },
+        {
+          "type": "ridge_ending",
+          "x": 226,
+          "y": 239,
+          "orientation_deg": -110.6
+        },
+        {
+          "type": "ridge_ending",
+          "x": 313,
+          "y": 244,
+          "orientation_deg": -110.6
+        },
+        {
+          "type": "ridge_ending",
+          "x": 319,
+          "y": 251,
+          "orientation_deg": 68.2
+        },
+        {
+          "type": "ridge_ending",
+          "x": 95,
+          "y": 269,
+          "orientation_deg": 84.8
+        },
+        {
+          "type": "ridge_ending",
+          "x": 15,
+          "y": 278,
+          "orientation_deg": -79.7
+        },
+        {
+          "type": "ridge_ending",
+          "x": 313,
+          "y": 283,
+          "orientation_deg": 180.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 62,
+          "y": 285,
+          "orientation_deg": -90.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 14,
+          "y": 286,
+          "orientation_deg": 90.0
+        },
+        {
+          "type": "bifurcation",
+          "x": 127,
+          "y": 290,
+          "orientation_deg": -102.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 20,
+          "y": 294,
+          "orientation_deg": -84.8
+        },
+        {
+          "type": "ridge_ending",
+          "x": 19,
+          "y": 302,
+          "orientation_deg": 90.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 309,
+          "y": 304,
+          "orientation_deg": -110.6
+        },
+        {
+          "type": "ridge_ending",
+          "x": 251,
+          "y": 309,
+          "orientation_deg": 90.0
+        },
+        {
+          "type": "bifurcation",
+          "x": 79,
+          "y": 319,
+          "orientation_deg": 79.7
+        },
+        {
+          "type": "ridge_ending",
+          "x": 183,
+          "y": 319,
+          "orientation_deg": -110.6
+        },
+        {
+          "type": "ridge_ending",
+          "x": 42,
+          "y": 322,
+          "orientation_deg": -95.7
+        },
+        {
+          "type": "ridge_ending",
+          "x": 189,
+          "y": 326,
+          "orientation_deg": 35.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 213,
+          "y": 328,
+          "orientation_deg": -102.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 44,
+          "y": 331,
+          "orientation_deg": 70.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 142,
+          "y": 332,
+          "orientation_deg": 54.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 226,
+          "y": 333,
+          "orientation_deg": -84.8
+        },
+        {
+          "type": "bifurcation",
+          "x": 81,
+          "y": 334,
+          "orientation_deg": -95.7
+        },
+        {
+          "type": "ridge_ending",
+          "x": 296,
+          "y": 342,
+          "orientation_deg": -102.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 132,
+          "y": 348,
+          "orientation_deg": 54.0
+        },
+        {
+          "type": "bifurcation",
+          "x": 191,
+          "y": 353,
+          "orientation_deg": -159.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 231,
+          "y": 356,
+          "orientation_deg": -45.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 259,
+          "y": 359,
+          "orientation_deg": 116.6
+        },
+        {
+          "type": "ridge_ending",
+          "x": 284,
+          "y": 359,
+          "orientation_deg": 125.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 293,
+          "y": 359,
+          "orientation_deg": 116.6
+        },
+        {
+          "type": "ridge_ending",
+          "x": 158,
+          "y": 361,
+          "orientation_deg": -140.2
+        },
+        {
+          "type": "ridge_ending",
+          "x": 266,
+          "y": 363,
+          "orientation_deg": 119.7
+        },
+        {
+          "type": "ridge_ending",
+          "x": 41,
+          "y": 365,
+          "orientation_deg": -119.7
+        },
+        {
+          "type": "ridge_ending",
+          "x": 289,
+          "y": 367,
+          "orientation_deg": -63.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 73,
+          "y": 373,
+          "orientation_deg": -129.8
+        },
+        {
+          "type": "ridge_ending",
+          "x": 88,
+          "y": 380,
+          "orientation_deg": -129.8
+        },
+        {
+          "type": "ridge_ending",
+          "x": 258,
+          "y": 381,
+          "orientation_deg": -35.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 250,
+          "y": 386,
+          "orientation_deg": 153.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 261,
+          "y": 391,
+          "orientation_deg": 167.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 270,
+          "y": 392,
+          "orientation_deg": -6.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 244,
+          "y": 396,
+          "orientation_deg": -20.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 93,
+          "y": 402,
+          "orientation_deg": 32.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 131,
+          "y": 404,
+          "orientation_deg": 26.6
+        },
+        {
+          "type": "ridge_ending",
+          "x": 235,
+          "y": 405,
+          "orientation_deg": 167.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 54,
+          "y": 406,
+          "orientation_deg": 24.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 243,
+          "y": 407,
+          "orientation_deg": 0.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 251,
+          "y": 407,
+          "orientation_deg": 180.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 146,
+          "y": 411,
+          "orientation_deg": -159.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 180,
+          "y": 411,
+          "orientation_deg": -167.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 129,
+          "y": 413,
+          "orientation_deg": 24.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 228,
+          "y": 414,
+          "orientation_deg": 5.2
+        },
+        {
+          "type": "ridge_ending",
+          "x": 157,
+          "y": 415,
+          "orientation_deg": 5.2
+        },
+        {
+          "type": "ridge_ending",
+          "x": 195,
+          "y": 424,
+          "orientation_deg": -6.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 245,
+          "y": 432,
+          "orientation_deg": -5.2
+        },
+        {
+          "type": "ridge_ending",
+          "x": 253,
+          "y": 444,
+          "orientation_deg": -5.2
+        },
+        {
+          "type": "ridge_ending",
+          "x": 243,
+          "y": 447,
+          "orientation_deg": 180.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 214,
+          "y": 450,
+          "orientation_deg": -10.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 273,
+          "y": 453,
+          "orientation_deg": 180.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 172,
+          "y": 462,
+          "orientation_deg": 167.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 234,
+          "y": 465,
+          "orientation_deg": 0.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 243,
+          "y": 465,
+          "orientation_deg": 180.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 252,
+          "y": 465,
+          "orientation_deg": 0.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 215,
+          "y": 471,
+          "orientation_deg": 5.2
+        },
+        {
+          "type": "ridge_ending",
+          "x": 171,
+          "y": 474,
+          "orientation_deg": 10.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 254,
+          "y": 475,
+          "orientation_deg": 180.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 228,
+          "y": 481,
+          "orientation_deg": 174.8
+        }
+      ]
+    },
+    {
+      "fingerprint_id": "fp_002",
+      "extracted_at": "2026-11-12T17:13:46",
+      "algorithm": "medial_axis",
+      "features": [
+        {
+          "type": "bifurcation",
+          "x": 200,
+          "y": 60,
+          "orientation_deg": 180.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 178,
+          "y": 67,
+          "orientation_deg": -172.9
+        },
+        {
+          "type": "ridge_ending",
+          "x": 182,
+          "y": 101,
+          "orientation_deg": -174.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 122,
+          "y": 107,
+          "orientation_deg": 126.9
+        },
+        {
+          "type": "ridge_ending",
+          "x": 259,
+          "y": 121,
+          "orientation_deg": -129.8
+        },
+        {
+          "type": "bifurcation",
+          "x": 137,
+          "y": 138,
+          "orientation_deg": -10.3
+        },
+        {
+          "type": "bifurcation",
+          "x": 204,
+          "y": 160,
+          "orientation_deg": 10.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 233,
+          "y": 172,
+          "orientation_deg": 20.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 278,
+          "y": 175,
+          "orientation_deg": -167.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 272,
+          "y": 191,
+          "orientation_deg": -159.4
+        },
+        {
+          "type": "bifurcation",
+          "x": 308,
+          "y": 193,
+          "orientation_deg": -150.3
+        },
+        {
+          "type": "bifurcation",
+          "x": 174,
+          "y": 195,
+          "orientation_deg": -10.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 246,
+          "y": 205,
+          "orientation_deg": -159.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 109,
+          "y": 214,
+          "orientation_deg": -42.0
+        },
+        {
+          "type": "bifurcation",
+          "x": 204,
+          "y": 215,
+          "orientation_deg": -174.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 101,
+          "y": 216,
+          "orientation_deg": -54.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 158,
+          "y": 223,
+          "orientation_deg": -24.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 301,
+          "y": 223,
+          "orientation_deg": 24.4
+        },
+        {
+          "type": "ridge_ending",
+          "x": 100,
+          "y": 224,
+          "orientation_deg": 143.1
+        },
+        {
+          "type": "ridge_ending",
+          "x": 90,
+          "y": 230,
+          "orientation_deg": 180.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 253,
+          "y": 240,
+          "orientation_deg": -150.3
+        },
+        {
+          "type": "bifurcation",
+          "x": 221,
+          "y": 256,
+          "orientation_deg": 5.2
+        },
+        {
+          "type": "bifurcation",
+          "x": 305,
+          "y": 265,
+          "orientation_deg": -135.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 149,
+          "y": 284,
+          "orientation_deg": 121.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 141,
+          "y": 288,
+          "orientation_deg": -54.0
+        },
+        {
+          "type": "bifurcation",
+          "x": 327,
+          "y": 293,
+          "orientation_deg": 55.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 155,
+          "y": 296,
+          "orientation_deg": -52.1
+        },
+        {
+          "type": "ridge_ending",
+          "x": 302,
+          "y": 309,
+          "orientation_deg": 65.6
+        },
+        {
+          "type": "bifurcation",
+          "x": 195,
+          "y": 313,
+          "orientation_deg": 153.4
+        },
+        {
+          "type": "bifurcation",
+          "x": 203,
+          "y": 321,
+          "orientation_deg": -170.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 322,
+          "y": 336,
+          "orientation_deg": -95.7
+        },
+        {
+          "type": "bifurcation",
+          "x": 284,
+          "y": 347,
+          "orientation_deg": 108.4
+        },
+        {
+          "type": "bifurcation",
+          "x": 171,
+          "y": 363,
+          "orientation_deg": 90.0
+        },
+        {
+          "type": "ridge_ending",
+          "x": 297,
+          "y": 382,
+          "orientation_deg": 150.3
+        },
+        {
+          "type": "ridge_ending",
+          "x": 309,
+          "y": 386,
+          "orientation_deg": 180.0
+        },
+        {
+          "type": "bifurcation",
+          "x": 246,
+          "y": 393,
+          "orientation_deg": 10.3
+        },
+        {
+          "type": "bifurcation",
+          "x": 266,
+          "y": 404,
+          "orientation_deg": -12.5
+        },
+        {
+          "type": "ridge_ending",
+          "x": 160,
+          "y": 422,
+          "orientation_deg": -110.6
         }
       ]
     }

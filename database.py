@@ -168,3 +168,13 @@ def save_metric(fingerprint_id, algorithm, execution_time_ms, minutiae_count, ac
 def get_metrics_for_algorithm(algorithm):
     """Return all metrics recorded for a given algorithm."""
     return [m for m in _load("metrics") if m["algorithm"] == algorithm]
+
+def register_output(fingerprint_id, subject_id, original_path, algorithm,
+                    skeleton_path, minutiae_features, metadata=None):
+    """One-call registration of an algorithm's output."""
+    if get_fingerprint(fingerprint_id) is None:
+        add_fingerprint(fingerprint_id, subject_id, original_path,
+                        metadata=metadata or {})
+    update_processed_images(fingerprint_id, algorithm,
+                            skeletonised=skeleton_path)
+    save_minutiae(fingerprint_id, algorithm, minutiae_features)
