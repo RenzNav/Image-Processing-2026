@@ -19,6 +19,26 @@
       "genuine": false,
       "match_status": "no_match",
       "compared_at": "2026-11-03T22:29:16"
+    },
+    {
+      "comparison_id": "cmp_0003",
+      "query_fingerprint_id": "fp_001",
+      "matched_fingerprint_id": "fp_002",
+      "algorithm": "zhang_suen",
+      "similarity_score": 0.073,
+      "genuine": false,
+      "match_status": "no_match",
+      "compared_at": "2026-11-09T20:04:03"
+    },
+    {
+      "comparison_id": "cmp_0004",
+      "query_fingerprint_id": "fp_001",
+      "matched_fingerprint_id": "fp_002",
+      "algorithm": "zhang_suen",
+      "similarity_score": 0.073,
+      "genuine": false,
+      "match_status": "no_match",
+      "compared_at": "2026-11-09T20:04:03"
     }
   ]
 }

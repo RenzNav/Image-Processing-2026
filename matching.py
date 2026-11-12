@@ -320,42 +320,31 @@ def show_minutiae(skeleton, template, title):
 
 def _load_database(database_dir, algorithm):
     """
-    Load fingerprint templates from the JSON database.
-
-    Uses stored minutiae and the corresponding skeleton image
-    to construct templates for fingerprint matching.
+    Load enrolled skeleton images and build their fingerprint templates.
     """
     database_dir = Path(database_dir)
+    project_dir = database_dir.resolve().parent
 
     with open(database_dir / "fingerprints.json", "r") as f:
         fingerprints = json.load(f)["fingerprints"]
-
-    with open(database_dir / "minutiae.json", "r") as f:
-        minutiae_records = json.load(f)["minutiae"]
-
-    # Look up stored minutiae by fingerprint ID and algorithm.
-    minutiae_lookup = {
-        (record["fingerprint_id"], record["algorithm"]): record["features"]
-        for record in minutiae_records
-    }
 
     templates = {}
 
     for fingerprint in fingerprints:
         fingerprint_id = fingerprint["fingerprint_id"]
-        key = (fingerprint_id, algorithm)
 
-        # Skip fingerprints without minutiae for this algorithm.
-        if key not in minutiae_lookup:
-            continue
-
-        # Find the skeleton produced by the selected algorithm.
-        skeleton_paths = fingerprint["processed_images"]["skeletonised"]
+        skeleton_paths = fingerprint.get(
+            "processed_images", {}
+        ).get("skeletonised", {})
 
         if algorithm not in skeleton_paths:
             continue
 
-        skeleton_path = Path(skeleton_paths[algorithm])
+        skeleton_path = project_dir / skeleton_paths[algorithm]
+
+        if not skeleton_path.is_file():
+            print(f"Missing skeleton: {skeleton_path}")
+            continue
 
         skeleton = cv2.imread(
             str(skeleton_path),
@@ -363,30 +352,11 @@ def _load_database(database_dir, algorithm):
         )
 
         if skeleton is None:
-            print(f"Skipping {fingerprint_id}: skeleton not found")
             continue
 
-        # Convert stored minutiae into the format used by matching.py.
-        features = minutiae_lookup[key]
+        templates[fingerprint_id] = build_template(skeleton)
 
-        minutiae = np.array([
-            [
-                feature["x"],
-                feature["y"],
-                math.radians(feature["orientation_deg"]),
-                1 if feature["type"] == "ridge_ending" else 3
-            ]
-            for feature in features
-        ], dtype=np.float64).reshape(-1, 4)
-
-        # Generate the region mask required for similarity scoring.
-        region, _ = _region_masks(skeleton > 127)
-
-        templates[fingerprint_id] = {
-            "minutiae": minutiae,
-            "region": region
-        }
-
+    print(f"Loaded {len(templates)} fingerprints for {algorithm}")
     return templates
 
 

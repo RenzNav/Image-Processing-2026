@@ -35,6 +35,26 @@
           "zhang_suen": "imgDATA/processed/zhang_suen/fp_002_skeleton.png"
         }
       }
+    },
+    {
+      "fingerprint_id": "fp_001",
+      "subject_id": "subject_001",
+      "enrolled_date": "2026-11-09T20:01:31",
+      "original_image_path": "fingerprint_samples/fingerprint_01.jpg",
+      "metadata": {
+        "format": "jpg"
+      },
+      "processed_images": {}
+    },
+    {
+      "fingerprint_id": "fp_002",
+      "subject_id": "subject_002",
+      "enrolled_date": "2026-11-09T20:01:31",
+      "original_image_path": "fingerprint_samples/fingerprint_02.jpg",
+      "metadata": {
+        "format": "jpg"
+      },
+      "processed_images": {}
     }
   ]
 }

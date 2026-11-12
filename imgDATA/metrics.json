@@ -31,6 +31,38 @@
       "minutiae_count": 0,
       "accuracy": null,
       "recorded_at": "2026-11-03T22:29:15"
+    },
+    {
+      "fingerprint_id": "fp_001",
+      "algorithm": "morphological_thinning",
+      "execution_time_ms": 14.710899999045068,
+      "minutiae_count": 0,
+      "accuracy": null,
+      "recorded_at": "2026-11-09T20:01:31"
+    },
+    {
+      "fingerprint_id": "fp_002",
+      "algorithm": "morphological_thinning",
+      "execution_time_ms": 11.455799998657312,
+      "minutiae_count": 0,
+      "accuracy": null,
+      "recorded_at": "2026-11-09T20:01:31"
+    },
+    {
+      "fingerprint_id": "fp_001",
+      "algorithm": "zhang_suen",
+      "execution_time_ms": 838.991000000533,
+      "minutiae_count": 0,
+      "accuracy": null,
+      "recorded_at": "2026-11-09T20:04:02"
+    },
+    {
+      "fingerprint_id": "fp_002",
+      "algorithm": "zhang_suen",
+      "execution_time_ms": 868.9539000006334,
+      "minutiae_count": 0,
+      "accuracy": null,
+      "recorded_at": "2026-11-09T20:04:03"
     }
   ]
 }

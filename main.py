@@ -10,6 +10,7 @@ import tkinter as tk
 from tkinter import filedialog
 import cv2
 import matplotlib.pyplot as plt
+import json
 
 # Importing files we created for preprocessing, skeletonisation, and matching
 from preprocessing import load_grayscale, preprocess
@@ -20,7 +21,9 @@ from matching import match_fingerprint
 from postprocessing import prune_spurs
 
 
-DATABASE_DIR = "imgDATA" 
+from pathlib import Path
+
+DATABASE_DIR = Path(__file__).resolve().parent / "imgDATA"
 
 # Algorithms available for skeletonisation
 # Just comment out the ones you don't want to use
@@ -67,6 +70,8 @@ def main():
     skeletons = {}
     processed_skeletons = {}
 
+    MATCH_THRESHOLD = 0.5
+    
     for name, algorithm in ALGORITHMS.items():
         try:
             # Run the thinning algorithm
@@ -97,12 +102,51 @@ def main():
             print(f"No matching database records loaded for {name}.")
             continue
 
-        for fingerprint_id, score, matched in results:
-            print(
-                f"Fingerprint: {fingerprint_id}, "
-                f"Score: {score:.3f}, "
-                f"Matched minutiae: {matched}"
+        fingerprint_id, score, matched = results[0]
+
+    if score >= MATCH_THRESHOLD:
+        print(f"Best match: {fingerprint_id}")
+        print(f"Similarity score: {score:.3f}")
+        print(f"Matched minutiae: {matched}")
+
+        with open(DATABASE_DIR / "fingerprints.json", "r") as f:
+            fingerprints = json.load(f)["fingerprints"]
+
+        match_record = next(
+            (fp for fp in fingerprints
+             if fp["fingerprint_id"] == fingerprint_id),
+            None
+        )
+
+        if match_record:
+            match_path = (
+                Path(__file__).resolve().parent
+                / match_record["original_image_path"]
             )
+
+            match_image = cv2.imread(
+                str(match_path),
+                cv2.IMREAD_GRAYSCALE
+            )
+
+            if match_image is not None:
+                plt.figure(figsize=(10, 5))
+
+                plt.subplot(1, 2, 1)
+                plt.imshow(gray, cmap="gray")
+                plt.title("Input Fingerprint")
+                plt.axis("off")
+
+                plt.subplot(1, 2, 2)
+                plt.imshow(match_image, cmap="gray")
+                plt.title(f"Best Match: {fingerprint_id}\nScore: {score:.3f}")
+                plt.axis("off")
+
+                plt.tight_layout()
+                plt.show()
+
+    else:
+        print("No sufficiently strong fingerprint match found.")
 
 
     # Display the original, binary, skeleton, and post-processed images
