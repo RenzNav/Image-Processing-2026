@@ -2,8 +2,15 @@
 __pycache__/
 *.pyc
 .vscode/
-imgDATA/processed/
+
+# Temp testing files
 test_*.py
 binary.png
 skeleton.png
 practiceDami.py
+
+# Dami's Database Files (Don't want to delete your files)
+imgDATA/fingerprints.json
+imgDATA/metrics.json
+imgDATA/minutiae.json
+imgDATA/results.json

@@ -12,14 +12,14 @@ import cv2
 import matplotlib.pyplot as plt
 import json
 
-# Importing files we created for preprocessing, skeletonisation, and matching
+# Importing files we created for preprocessing, skeletonisation, postprocessing, processed images and matching
 from preprocessing import load_grayscale, preprocess
 # from algorithms.medial_axis import medial_axis_thinning
 # from algorithms.morphological import morphological_thinning
 from algorithms.zhang_suen import zhang_suen_thinning
-from matching import match_fingerprint
 from postprocessing import prune_spurs
-
+from matching import match_fingerprint
+from image_storage import save_processed_image
 
 from pathlib import Path
 
@@ -82,6 +82,15 @@ def main():
                 skeletons[name], threshold=2
             )
 
+            # Save the post-processed image
+            algorithm_key = name.lower().replace(" ", "_").replace("-", "_")
+
+            save_processed_image(
+                processed_skeletons[name],
+                fingerprint_id,
+                algorithm_key
+            )
+
         except NotImplementedError:
             print(name, "algorithm not implemented yet. Skipping.")
     # Match each skeleton against the database
@@ -93,7 +102,7 @@ def main():
         print(f"\nMatching using {name}...")
 
         results = match_fingerprint(
-            skeleton,
+            processed_skeletons[name],
             DATABASE_DIR,
             algorithm=algorithm_key
         )
