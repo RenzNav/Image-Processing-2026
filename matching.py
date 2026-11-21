@@ -317,37 +317,19 @@ def show_minutiae(skeleton, template, title):
 # ----------------------------------------------------------------------------
 # 3. Database handling + public entry point
 # ----------------------------------------------------------------------------
-
 def _load_database(database_dir, algorithm):
     """
     Load enrolled skeleton images and build their fingerprint templates.
     """
-    database_dir = Path(database_dir)
-    project_dir = database_dir.resolve().parent
-
-    with open(database_dir / "fingerprints.json", "r") as f:
-        fingerprints = json.load(f)["fingerprints"]
+    processed_dir = Path(database_dir) / "processed" / algorithm
 
     templates = {}
 
-    for fingerprint in fingerprints:
-        fingerprint_id = fingerprint["fingerprint_id"]
-
-        skeleton_paths = fingerprint.get(
-            "processed_images", {}
-        ).get("skeletonised", {})
-
-        if algorithm not in skeleton_paths:
-            continue
-
-        skeleton_path = project_dir / skeleton_paths[algorithm]
-
-        if not skeleton_path.is_file():
-            print(f"Missing skeleton: {skeleton_path}")
-            continue
+    for image_path in processed_dir.glob("*_skeleton.png"):
+        fingerprint_id = image_path.stem.removesuffix("_skeleton")
 
         skeleton = cv2.imread(
-            str(skeleton_path),
+            str(image_path),
             cv2.IMREAD_GRAYSCALE
         )
 
