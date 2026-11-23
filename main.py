@@ -6,10 +6,13 @@ Date: 10/10/2026
 """
 
 # Libraries needed to open a file dialogue and display results
+# Libraries need to measure time complexity of algorithms
 import tkinter as tk
 from tkinter import filedialog
 import cv2
 import matplotlib.pyplot as plt
+import time
+import psutil
 
 # Importing files we created for preprocessing, skeletonisation, postprocessing, processed images and matching
 from preprocessing import load_grayscale, preprocess
@@ -17,7 +20,7 @@ from algorithms.medial_axis import medial_axis_thinning
 from algorithms.morphological import morphological_thinning
 from algorithms.zhang_suen import zhang_suen_thinning
 from postprocessing import prune_spurs
-from matching import match_fingerprint
+from matching import match_fingerprint, build_template
 from image_storage import save_processed_image
 
 from pathlib import Path
@@ -78,17 +81,25 @@ def main():
     skeletons = {}
     processed_skeletons = {}
 
-    MATCH_THRESHOLD = 0.5
+    MIN_MATCHED_MINUTIAE = 8
     
     for name, algorithm in ALGORITHMS.items():
         try:
             # Run the thinning algorithm
+            start = time.perf_counter()
             skeletons[name] = algorithm(binary.copy())
+            thinning_time = time.perf_counter() - start
 
+            start = time.perf_counter()
             # Apply spur pruning
             processed_skeletons[name] = prune_spurs(
                 skeletons[name], threshold=2
             )
+            pruning_time = time.perf_counter() - start
+
+            print(f"\n{name}")
+            print(f"Skeletonisation time: {thinning_time:.4f} seconds")
+            print(f"Post-processing time: {pruning_time:.4f} seconds")
 
             # Save the post-processed image
             algorithm_key = name.lower().replace(" ", "_").replace("-", "_")
@@ -112,11 +123,18 @@ def main():
 
             print(f"\nMatching using {name}...")
 
+            # Measure fingerprint matching time
+            start = time.perf_counter()
+
             results = match_fingerprint(
                 processed_skeletons[name],
                 DATABASE_DIR,
                 algorithm=algorithm_key
             )
+
+            matching_time = time.perf_counter() - start
+
+            print(f"Matching time: {matching_time:.4f} seconds")
 
             if not results:
                 print(f"No database fingerprints found for {name}.")
@@ -125,11 +143,13 @@ def main():
             # Retrieve the best matching fingerprint
             matched_id, score, matched = results[0]
 
+            
+
             print(f"Best match: {matched_id}")
             print(f"Similarity score: {score:.3f}")
             print(f"Matched minutiae: {matched}")
 
-            if score >= MATCH_THRESHOLD:
+            if matched >= MIN_MATCHED_MINUTIAE:
 
                 # Load the matched skeleton directly from the processed folder
                 match_path = (
@@ -143,7 +163,9 @@ def main():
                 )
 
                 if match_image is not None:
-                    plt.figure(figsize=(10, 5))
+                    fig = plt.figure(figsize=(10, 5))
+                    fig.canvas.manager.set_window_title(f"{name} - Fingerprint Matching")
+                    fig.suptitle(f"{name} - Matching Results", fontsize=14)
 
                     plt.subplot(1, 2, 1)
                     plt.imshow(processed_skeletons[name], cmap="gray")
@@ -156,9 +178,9 @@ def main():
                     plt.axis("off")
 
                     plt.tight_layout()
-                    plt.show()
             else:
                 print("No sufficiently strong fingerprint match found.")
+        plt.show()
 
 
     # # Display the original, binary, skeleton, and post-processed images

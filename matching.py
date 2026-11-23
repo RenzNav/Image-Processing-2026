@@ -373,7 +373,7 @@ def match_fingerprint(
         ))
 
     results.sort(
-        key=lambda result: (result[1], result[2]),
+        key=lambda result: (result[2], result[1]),
         reverse=True
     )
 
